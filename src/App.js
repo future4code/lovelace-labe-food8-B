@@ -1,10 +1,10 @@
 import React from 'react';
-import CartPage from './pages/CartPage';
+import ProfilePage from './pages/ProfilePage';
 
 const App =() => {
   return (
     <div>
-      <CartPage/>
+      <ProfilePage/>
     </div>
   );
 }
