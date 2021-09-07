@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 import {
   Flex,
@@ -11,12 +11,9 @@ import {
   Stack,
   InputRightElement,
   Button,
-  Divider,
-  IconButton,
 } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
-import { BiLeftArrow } from "react-icons/bi";
-import { AiOutlineArrowLeft } from "react-icons/ai";
+import GoBackBar from "../components/GoBackBar";
 
 const SignUpPage = () => {
   const history = useHistory();
@@ -28,6 +25,12 @@ const SignUpPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("token") !== null) {
+      history.push("/");
+    }
+  }, []);
 
   const handleShowClick = () => setShowPassword(!showPassword);
 
@@ -52,26 +55,15 @@ const SignUpPage = () => {
 
       console.log(body);
 
+      history.push("/address-form");
+
       // FALTA INTEGRAÇÃO COM API
     }
   };
 
   return (
     <>
-      <Flex flexDir="column" alignItems="flex-start">
-        <IconButton
-          colorScheme="whatsapp"
-          isRound
-          py={5}
-          size="lg"
-          variant="ghost"
-          aria-label="Search database"
-          icon={<AiOutlineArrowLeft />}
-          onClick={() => history.goBack()}
-        />
-      </Flex>
-
-      <Divider mb={-10} />
+      <GoBackBar />
 
       <Flex
         flexDir="column"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 import {
   Flex,
@@ -13,12 +13,19 @@ import {
   Button,
   Link,
 } from "@chakra-ui/react";
-import { Link as ReachLink } from "react-router-dom";
+import { Link as ReachLink, useHistory } from "react-router-dom";
 
 const LoginPage = () => {
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("token") !== null) {
+      history.push("/");
+    }
+  }, []);
 
   const handleShowClick = () => setShowPassword(!showPassword);
   const handleLogin = (e) => {
