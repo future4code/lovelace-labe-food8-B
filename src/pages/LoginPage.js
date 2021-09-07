@@ -65,6 +65,7 @@ const LoginPage = () => {
                     placeholder="email@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    isRequired
                   />
                 </InputGroup>
               </FormControl>
@@ -76,6 +77,7 @@ const LoginPage = () => {
                     placeholder="Enter password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    isRequired
                   />
                   <InputRightElement width="4.5rem">
                     <Button h="1.75rem" size="sm" onClick={handleShowClick}>
