@@ -12,8 +12,12 @@ import {
   InputRightElement,
   Button,
   Link,
+  CircularProgress,
 } from "@chakra-ui/react";
 import { Link as ReachLink, useHistory } from "react-router-dom";
+import { BiShow, BiHide } from "react-icons/bi";
+import axios from "axios";
+import { appName, baseUrl } from "../constants/constants";
 
 const LoginPage = () => {
   const history = useHistory();
@@ -21,9 +25,11 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     if (localStorage.getItem("token") !== null) {
-      history.push("/");
+      history.push("/home");
     }
   }, []);
 
@@ -39,7 +45,15 @@ const LoginPage = () => {
     setEmail("");
     setPassword("");
 
-    // FALTA INTEGRAÇÃO COM API
+    setIsLoading(true);
+    axios
+      .post(`${baseUrl}/${appName}/login`, body)
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        history.push("/home");
+        setIsLoading(false);
+      })
+      .catch((err) => console.log(err.response));
   };
 
   return (
@@ -87,36 +101,53 @@ const LoginPage = () => {
                     isRequired
                   />
                   <InputRightElement width="4.5rem">
-                    <Button h="1.75rem" size="sm" onClick={handleShowClick}>
-                      {showPassword ? "Hide" : "Show"}
+                    <Button
+                      h="1.75rem"
+                      size="lg"
+                      onClick={handleShowClick}
+                      variant="ghost"
+                    >
+                      {showPassword ? <BiHide /> : <BiShow />}
                     </Button>
                   </InputRightElement>
                 </InputGroup>
               </FormControl>
-              <Button
-                borderRadius={0}
-                type="submit"
-                variant="solid"
-                background="#5cb646"
-                width="full"
-              >
-                Login
-              </Button>
+              {isLoading ? (
+                <CircularProgress
+                  isIndeterminate
+                  color="green.300"
+                  alignSelf="center"
+                />
+              ) : (
+                <Button
+                  borderRadius={0}
+                  type="submit"
+                  variant="solid"
+                  background="#5cb646"
+                  width="full"
+                >
+                  Login
+                </Button>
+              )}
             </Stack>
           </form>
         </Box>
       </Flex>
-      <Box mt={2}>
-        Não possui cadastro?{" "}
-        <Link
-          color="#5cb646"
-          fontWeight="extrabold"
-          as={ReachLink}
-          to="/signup"
-        >
-          Clique aqui
-        </Link>
-      </Box>
+      {isLoading ? (
+        ""
+      ) : (
+        <Box mt={2}>
+          Não possui cadastro?{" "}
+          <Link
+            color="#5cb646"
+            fontWeight="extrabold"
+            as={ReachLink}
+            to="/signup"
+          >
+            Clique aqui
+          </Link>
+        </Box>
+      )}
     </Flex>
   );
 };

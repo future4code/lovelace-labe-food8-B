@@ -11,12 +11,18 @@ import {
   Stack,
   InputRightElement,
   Button,
+  CircularProgress,
+  useToast,
 } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 import GoBackBar from "../components/GoBackBar";
+import axios from "axios";
+import { baseUrl, appName } from "../constants/constants";
+import { BiShow, BiHide } from "react-icons/bi";
 
 const SignUpPage = () => {
   const history = useHistory();
+  const toast = useToast();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -25,6 +31,7 @@ const SignUpPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("token") !== null) {
@@ -38,7 +45,13 @@ const SignUpPage = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("As senhas não são compatíveis");
+      toast({
+        title: "As senhas não são compatíveis.",
+        status: "error",
+        duration: "2000",
+        isClosable: true,
+      });
+      return;
     } else {
       const body = {
         name: name,
@@ -53,18 +66,23 @@ const SignUpPage = () => {
       setPassword("");
       setConfirmPassword("");
 
-      console.log(body);
-
-      history.push("/address-form");
-
-      // FALTA INTEGRAÇÃO COM API
+      setIsLoading(true);
+      axios
+        .post(`${baseUrl}/${appName}/signup`, body)
+        .then((res) => {
+          localStorage.setItem("token", res.data.token);
+          history.push("/address-form");
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
     }
   };
 
   return (
     <>
       <GoBackBar />
-
       <Flex
         flexDir="column"
         w="100vw"
@@ -133,8 +151,13 @@ const SignUpPage = () => {
                       isRequired
                     />
                     <InputRightElement width="4.5rem">
-                      <Button h="1.75rem" size="sm" onClick={handleShowClick}>
-                        {showPassword ? "Hide" : "Show"}
+                      <Button
+                        variant="ghost"
+                        h="1.75rem"
+                        size="lg"
+                        onClick={handleShowClick}
+                      >
+                        {showPassword ? <BiHide /> : <BiShow />}
                       </Button>
                     </InputRightElement>
                   </InputGroup>
@@ -150,21 +173,35 @@ const SignUpPage = () => {
                       isRequired
                     />
                     <InputRightElement width="4.5rem">
-                      <Button h="1.75rem" size="sm" onClick={handleShowClick}>
-                        {showPassword ? "Hide" : "Show"}
+                      <Button
+                        variant="ghost"
+                        h="1.75rem"
+                        size="lg"
+                        onClick={handleShowClick}
+                      >
+                        {showPassword ? <BiHide /> : <BiShow />}
                       </Button>
                     </InputRightElement>
                   </InputGroup>
                 </FormControl>
-                <Button
-                  borderRadius={0}
-                  type="submit"
-                  variant="solid"
-                  background="#5cb646"
-                  width="full"
-                >
-                  Cadastrar
-                </Button>
+
+                {isLoading ? (
+                  <CircularProgress
+                    isIndeterminate
+                    color="green.300"
+                    alignSelf="center"
+                  />
+                ) : (
+                  <Button
+                    borderRadius={0}
+                    type="submit"
+                    variant="solid"
+                    background="#5cb646"
+                    width="full"
+                  >
+                    Cadastrar
+                  </Button>
+                )}
               </Stack>
             </form>
           </Box>

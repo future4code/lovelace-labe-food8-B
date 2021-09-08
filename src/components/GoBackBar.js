@@ -11,7 +11,7 @@ const GoBackBar = () => {
         <IconButton
           colorScheme="whatsapp"
           isRound
-          py={5}
+          p="5"
           size="lg"
           variant="ghost"
           aria-label="Search database"

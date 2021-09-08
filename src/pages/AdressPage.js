@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Flex,
   Heading,
@@ -8,33 +8,40 @@ import {
   InputGroup,
   Input,
   Button,
+  CircularProgress,
+  useToast,
 } from "@chakra-ui/react";
 import { useHistory } from "react-router";
 import GoBackBar from "../components/GoBackBar";
+import axios from "axios";
+import { appName, baseUrl } from "../constants/constants";
 
 const AdressPage = () => {
   const history = useHistory();
+  const toast = useToast();
 
   const [street, setStreet] = useState("");
   const [number, setNumber] = useState("");
   const [complement, setComplement] = useState("");
-  const [district, setDistrict] = useState("");
+  const [neighbourhood, setNeighbourhood] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
 
-  useEffect(() => {
-    if (localStorage.getItem("token") !== null) {
-      history.push("/");
-    }
-  }, []);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAddAdress = (e) => {
     e.preventDefault();
 
+    const axiosConfig = {
+      headers: {
+        auth: localStorage.getItem("token"),
+      },
+    };
+
     const body = {
       street: street,
       number: number,
-      neighbourhood: district,
+      neighbourhood: neighbourhood,
       city: city,
       state: state,
       complement: complement,
@@ -43,15 +50,28 @@ const AdressPage = () => {
     setStreet("");
     setNumber("");
     setComplement("");
-    setDistrict("");
+    setNeighbourhood("");
     setCity("");
     setState("");
 
-    // FALTA INTEGRAÇÃO COM API
-
-    console.log(body);
-
-    history.push("/");
+    setIsLoading(true);
+    axios
+      .put(`${baseUrl}/${appName}/address`, body, axiosConfig)
+      .then((res) => {
+        localStorage.removeItem("token");
+        localStorage.setItem("token", res.data.token);
+        setIsLoading(false);
+        toast({
+          title: "O endereço foi cadastrado.",
+          status: "success",
+          duration: "3000",
+          isClosable: true,
+        });
+        history.push("/home");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -111,8 +131,8 @@ const AdressPage = () => {
                     pr="4.5rem"
                     type="text"
                     placeholder="Bairro"
-                    value={district}
-                    onChange={(e) => setDistrict(e.target.value)}
+                    value={neighbourhood}
+                    onChange={(e) => setNeighbourhood(e.target.value)}
                     isRequired
                   />
                 </InputGroup>
@@ -141,15 +161,23 @@ const AdressPage = () => {
                   />
                 </InputGroup>
               </FormControl>
-              <Button
-                borderRadius={0}
-                type="submit"
-                variant="solid"
-                background="#5cb646"
-                width="full"
-              >
-                Salvar
-              </Button>
+              {isLoading ? (
+                <CircularProgress
+                  isIndeterminate
+                  color="green.300"
+                  alignSelf="center"
+                />
+              ) : (
+                <Button
+                  borderRadius={0}
+                  type="submit"
+                  variant="solid"
+                  background="#5cb646"
+                  width="full"
+                >
+                  Salvar
+                </Button>
+              )}
             </Stack>
           </form>
         </Box>
