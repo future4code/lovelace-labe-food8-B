@@ -1,11 +1,12 @@
-import React from 'react';
-import ProfilePage from './pages/ProfilePage';
+import Router from "./routes/Router";
+import { ChakraProvider } from "@chakra-ui/react";
+import React from "react";
 
 const App =() => {
   return (
-    <div>
-      <ProfilePage/>
-    </div>
+    <ChakraProvider>
+      <Router />
+    </ChakraProvider>
   );
 }
 
