@@ -1,8 +1,11 @@
 import React from "react"
 import styled from "styled-components"
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const Conteiner = styled.div`
-  width: 360px;
+      width: 100vw;
+    max-width: 420px;
   box-sizing: border-box;
   border: solid black 1px;
   margin-right: auto;
@@ -11,173 +14,158 @@ const Conteiner = styled.div`
   flex-direction: column;
 `
 
-
 const Title = styled.span`
-    width: 100px;
-  height: 19px;
   font-family: Roboto;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 19px;
+  font-weight: bolder;
   letter-spacing: -0.39px;
   color: black;
   padding: 10px;
+  text-align: center;
   margin-top: 20px;
-  margin-bottom: 10px;
-  margin-left: auto;
-  margin-right: auto;
-`
+  `
 
 const Rectangle = styled.div`
- width: 91%;
   height: 76px;
   margin: 1px 0 8px;
-  padding: 16px;
+  margin-top: 14px;
   background-color: #eee;
 `
 
 const Adress = styled.div`
-  width: 328px;
-  height: 18px;
-  margin: 10px ;
+padding: 10px;
   font-family: Roboto;
   font-size: 18px;
   font-weight: bold;
   letter-spacing: -0.39px;
-  color: black;
-text-align:center
+  text-align:center;
+  justify-content: center;
 `
 
-const Adress2 = styled.div`
-  width: 328px;
-  height: 18px;
-  margin: 8px;
+const Adress2 = styled.form`
   font-family: Roboto;
   font-size: 16px;
   letter-spacing: -0.39px;
-  color: black;
-  margin-right: auto;
-  margin-left: auto;
-  text-align:center
+  text-align:center;
+  margin-bottom: 20px;
+  justify-content: center;
 
 `
 
 const Status = styled.span`
-  width: 360px;
-  height: 42px;
-  margin: 8px 0 33px;
-  padding: 12px 32px;
-  width: 296px;
-  height: 18px;
+  margin: 10px 0 33px;
   opacity: 0.89;
   font-family: Roboto;
-  font-size: 16px;
   letter-spacing: -0.39px;
   text-align: center;
-  color: var(--black);
+  justify-content: center;
 `
-
-const Frete = styled.span`
-  width: 104px;
-  height: 18px;
+ const Frete = styled.span`
+ text-align: right;
+ margin-right: 10px;
   font-family: Roboto;
   font-size: 16px;
   letter-spacing: -0.39px;
-  text-align: right;
-  margin-bottom: 10px;
-  color: black;
 `
+
 
 const Subtotal = styled.span`
-  width: 164px;
-  height: 18px;
-  margin: 16px 0 9px 16px;
+display: inline-block;
   font-family: Roboto;
-  font-size: 16px;
   letter-spacing: -0.39px;
-  color: black;
+  margin-left: 20px;
+  margin-top: 10px;  
 `
-const Valor = styled.span`
-flex-wrap: nowrap;
-  width: 164px;
-  height: 18px;
+const Total = styled.span`
+  display: inline-block;
   font-family: Roboto;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: bolder;
+  letter-spacing: -0.43px;
+  text-align: right;
+  color: #5cb646;
+  margin-right: 10px;
+`
+
+
+const Valor = styled.div`
+
+  font-family: Roboto;
+  margin-right: 10px;
+  font-size: 18px;
+  font-weight: bolder;
   letter-spacing: -0.43px;
   text-align: right;
   color: #5cb646;
 `
-const FormaDePagamento = styled.span`
-width: 328px;
+
+const FormControlLabel1 = styled(FormControlLabel)`
+ width: 328px;
   height: 18px;
+  padding: 10px;
   margin: 24px 16px 8px;
   font-family: Roboto;
   font-size: 16px;
   letter-spacing: -0.39px;
-  color: black;
 `
 
 const Traco = styled.span`
-width: 328px;
-  height: 1px;
+  height: 2px;
   margin: 8px 16px;
-  border: solid 1px var(--black);
+  border: solid 1px black;
 `
 
 const OpcoesPagamento = styled.span`
-  width: 296px;
-  height: 18px;
-  margin: 11px 16px 11px 8px;
+  margin-top: 30px;
   font-family: Roboto;
   font-size: 16px;
   letter-spacing: -0.39px;
-  color: var(--black);
+  text-align: center;
 `
-const Button = styled.button`
-width: 360px;
-  height: 42px;
+const ButtonStyle = styled.button`
+  margin-bottom: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 50px;
+  font-family: Roboto;
+  letter-spacing: -0.39px;
+  font-size: 16px;
   padding: 12px 16px;
   border-radius: 2px;
   background-color: #5cb646;
-
-  span{
-width: 296px;
-  height: 18px;
-  font-family: Roboto;
-  font-size: 16px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: -0.39px;
-  text-align: center;
-  color: var(--black);
-  }
 `
 
 const CartPage = () => {
-    return (
-        <Conteiner>
-            <Title>Meu Carrinho</Title>
-            <Rectangle>
-                <Adress>Endereço de entrega</Adress>
-                <Adress2> Rua Alessandro Vieira, 41</Adress2>
-            </Rectangle>
-            <Status>Carrinho vazio</Status>
-            <Frete>Frete R$0,00</Frete>
-            <Subtotal>Subtotal</Subtotal>
-            <Valor>R$00,00</Valor>
+  
+  return (
+    <Conteiner>
+      <Title>Meu Carrinho</Title>
+      <Rectangle>
+        <Adress>Endereço de entrega</Adress>
+        <Adress2> Rua Alessandro Vieira, 41</Adress2>
+      </Rectangle>
+      <Status>Carrinho vazio</Status>
+      <Frete>Frete</Frete>
+      <Valor>R$00,00</Valor>
+      <Subtotal>Subtotal</Subtotal>
+      <Total>R$00,00</Total>
+      <OpcoesPagamento>Opções de Pagamento</OpcoesPagamento>
+      <Traco><hr/></Traco>
+      <FormControlLabel1
+            control={<Checkbox/>}
+            label="Dinheiro"
+          />
 
-            <FormaDePagamento>Forma de Pagamento</FormaDePagamento>
-            <Traco><hr></hr></Traco>
+          <FormControlLabel1
+            control={<Checkbox/>}
+            label="Cartão de Crédito"
 
-            <OpcoesPagamento>Dinheiro</OpcoesPagamento>
-            <OpcoesPagamento>Cartão de Crédito</OpcoesPagamento>
-            <Button>
-                <span>Confirmar</span>
-            </Button>
-        </Conteiner>
-    )
+          />
+
+      <ButtonStyle>Confirmar</ButtonStyle>
+    </Conteiner>
+  )
 }
 
 export default CartPage
+
