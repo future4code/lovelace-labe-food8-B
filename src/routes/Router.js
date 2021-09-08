@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import SplashPage from "../pages/SplashPage";
 import LoginPage from "../pages/LoginPage";
 import SignUpPage from "../pages/SignUpPage";
 import HomePage from "../pages/HomePage";
@@ -13,7 +14,10 @@ export default function Router() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path={"/"}>
+      <Route exact path={"/"}>
+          <SplashPage />
+        </Route>
+        <Route exact path={"/home"}>
           <HomePage />
         </Route>
 
