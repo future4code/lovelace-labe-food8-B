@@ -14,9 +14,11 @@ export default function Router() {
   return (
     <BrowserRouter>
       <Switch>
+
       <Route exact path={"/"}>
           <SplashPage />
         </Route>
+
         <Route exact path={"/home"}>
           <HomePage />
         </Route>
