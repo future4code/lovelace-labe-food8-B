@@ -5,6 +5,7 @@ import { BiSearch } from "react-icons/bi";
 import axios from "axios";
 import { appName, baseUrl } from "../constants/constants";
 import RestaurantCard from "../components/RestaurantCard";
+import AppHeader from "../components/AppHeader";
 
 const HomePage = () => {
   const [restaurantsList, setRestaurantsList] = useState([]);
@@ -33,10 +34,7 @@ const HomePage = () => {
   return (
     <Container h="100vh">
       {/* Topo do App */}
-      <Heading as="h1" fontSize="lg" textAlign="center" p="4">
-        FutureEats
-      </Heading>
-      <Divider mb="2" />
+      <AppHeader title={"FutureEats"} />
 
       {/* Input pesquisa */}
       <InputGroup mb="4">
