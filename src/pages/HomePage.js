@@ -23,7 +23,6 @@ const HomePage = () => {
     axios
       .get(`${baseUrl}/${appName}/restaurants`, axiosConfig)
       .then((res) => {
-        console.log(res.data.restaurants);
         setRestaurantsList(res.data.restaurants);
       })
       .catch((err) => {
