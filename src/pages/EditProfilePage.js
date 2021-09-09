@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import styled from "styled-components";
+import axios from "axios"
 
 const TextFieldStyled = styled(TextField)`
   width: 328px;
@@ -37,6 +38,45 @@ const SaveButton = styled.button`
   `
 
 const EditProfilePage = () => {
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [cpf, setCpf] = useState("");
+
+  const [user, setUser]  = useState({})
+
+  const changeName = (event) => {
+    setName(event.target.value)
+  }
+
+  const changeEmail = (event) => {
+    setEmail(event.target.value)
+  }
+
+  const changeCpf = (event) => {
+    setCpf(event.target.value)
+  }
+
+  const editProfile = () => {
+
+    const body = {
+      name, email, cpf 
+    }
+ 
+    axios.put('https://us-central1-missao-newton.cloudfunctions.net/futureEatsE/profile', body , {
+      headers: {
+        auth: localStorage.getItem("token")
+      }
+    }).then((res) => {
+      console.log(res.data.user)
+      setUser(res.data.user)
+
+    })
+      .catch(error => { 
+        alert("Erro na atualização do cadastro")
+        console.log(error.message) })
+  }
+
   return (
 
     <div>
@@ -51,7 +91,7 @@ const EditProfilePage = () => {
             type="text"
             variant="outlined"
             name="name"
-            // onChange={onChange}
+            onChange={changeName}
             style={{ margin: '8px 0' }}
             required>
 
@@ -63,7 +103,7 @@ const EditProfilePage = () => {
               type="email"
               variant="outlined"
               name="email"
-              // onChange={onChange}
+              onChange={changeEmail}
               style={{ margin: '8px 0' }}
               required>
             </TextFieldStyled>
@@ -74,13 +114,13 @@ const EditProfilePage = () => {
               placeholder="Somente números"
               variant="outlined"
               name="cpf"
-              // onChange={onChange}
+              onChange={changeCpf}
               style={{ margin: '8px 0' }}
               pattern="[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}"
               required
             >
             </TextFieldStyled></>
-          <SaveButton><strong>Salvar</strong></SaveButton>
+          <SaveButton onClick={editProfile}><strong>Salvar</strong></SaveButton>
         </FormContainer>
 
       </Container>
