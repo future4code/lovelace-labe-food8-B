@@ -1,5 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import axios from "axios"
+import { useState } from "react";
+import { baseUrl } from "../constants/constants";
+import { appName } from "../constants/constants";
+import { useHistory } from "react-router";
+import Card from '@material-ui/core/Card';
+
 
 const Conteiner = styled.div`
       width: 100vw;
@@ -12,7 +19,7 @@ const Conteiner = styled.div`
   display:flex;
   flex-direction: column;
 `
-const TitleConteiner = styled.div`
+const TitleConteiner = styled(Card)`
   height: 64px;
   margin: 0 0 16px;
   border: black 1px solid;
@@ -63,6 +70,7 @@ const EnderecoCadastrado2 = styled.div`
   font-size: 16px;
   letter-spacing: -0.39px;
   color: black;
+  font-weight: bold;
   `
 const Historico = styled.span`  
     margin: 16px 16px 8px;
@@ -110,35 +118,68 @@ const Subtotal = styled.div`
  `
 
 const ProfilePage = () => {
-    return (
-        <Conteiner>
-            <TitleConteiner>
-                    <Title>Meu Perfil</Title>
-            </TitleConteiner>
+  const [profile, setProfile] = useState({});
+  const [order, setOrder] = useState({});
 
-                <Nome>Bruna Oliveira</Nome>
-                <Email>bruna_o@gmail.com</Email>
-                <Rectangle>
-                    <EnderecoCadastrado>Endereço Cadastrado</EnderecoCadastrado>
-                    <EnderecoCadastrado2>Rua 123</EnderecoCadastrado2>
-                </Rectangle>
-                <Historico> Histórico de pedidos</Historico>
-                <PedidosCard>
-                    <Rectangle2>
-                        <NomeRestaurante>Bullguer Vila Madalena</NomeRestaurante>
-                        <Data>09/09/21</Data>
-                        <Subtotal>R$77</Subtotal>
-                    </Rectangle2>
-                </PedidosCard>
-                <PedidosCard>
-                    <Rectangle2>
-                        <NomeRestaurante>Bullguer Vila Madalena</NomeRestaurante>
-                        <Data>09/09/21</Data>
-                        <Subtotal>R$77</Subtotal>
-                    </Rectangle2>
-                </PedidosCard>
-        </Conteiner>
-    )
+  const history = useHistory()
+
+  const axiosConfig = {
+    headers: {
+      auth: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ik9QZ0s0OXpnSVpXSFlCYUJ3UUloIiwibmFtZSI6IkNsYXJpY2UiLCJlbWFpbCI6ImNsYXJpY2VAZ21haWwuY29tIiwiY3BmIjoiMjExLjExMS4xMTEtMTEiLCJoYXNBZGRyZXNzIjpmYWxzZSwiaWF0IjoxNjMxMTk5NjIwfQ.ea8XmbSfWwQIN3RwTWHW71GI5bKBJmu-_g4KTukas0c",
+    },
+  };
+
+
+  axios
+    .get(`${baseUrl}/${appName}/profile`, axiosConfig)
+    .then((res) => {
+      console.log(res.data.user)
+      setProfile(res.data.user)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+    axios
+    .get(`${baseUrl}/${appName}/orders/history`, axiosConfig)
+    .then((res) => {
+      console.log("pedidos",res.data.user)
+      setOrder(res.data.user)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  return (
+    <Conteiner>
+      <TitleConteiner>
+        <Title>Meu Perfil</Title>
+      </TitleConteiner>
+
+      <Nome>{profile.name}</Nome>
+      <Email>{profile.email}</Email>
+
+      <Rectangle>
+      <EnderecoCadastrado>Endereço Cadastrado</EnderecoCadastrado>
+        <EnderecoCadastrado2>{profile.address}</EnderecoCadastrado2>
+      </Rectangle>
+      <Historico> Histórico de pedidos</Historico>
+      <PedidosCard>
+        <Rectangle2>
+          <NomeRestaurante>Bullguer Vila Madalena</NomeRestaurante>
+          <Data>09/09/21</Data>
+          <Subtotal>R$77</Subtotal>
+        </Rectangle2>
+      </PedidosCard>
+      <PedidosCard>
+        <Rectangle2>
+          <NomeRestaurante>Bullguer Vila Madalena</NomeRestaurante>
+          <Data>09/09/21</Data>
+          <Subtotal>R$77</Subtotal>
+        </Rectangle2>
+      </PedidosCard>
+    </Conteiner>
+  )
 }
 
 export default ProfilePage
