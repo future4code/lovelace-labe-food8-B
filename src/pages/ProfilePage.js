@@ -150,6 +150,15 @@ const ProfilePage = () => {
     }
   }
 
+  let date = new Date(order.createdAt)
+  console.log("Date: "+date.getDate()+
+          "/"+(date.getMonth()+1)+
+          "/"+date.getFullYear()+
+          " "+date.getHours()+
+          ":"+date.getMinutes()
+          );
+
+
 
   return (
     <Conteiner>
