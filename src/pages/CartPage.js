@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import useProtectedPage from "../hooks/useProtectedPage";
 
 const Conteiner = styled.div`
       width: 100vw;
@@ -136,6 +137,7 @@ const ButtonStyle = styled.button`
 `
 
 const CartPage = () => {
+  useProtectedPage()
   
   return (
     <Conteiner>

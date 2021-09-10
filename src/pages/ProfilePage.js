@@ -8,6 +8,7 @@ import { useHistory } from "react-router";
 import Card from '@material-ui/core/Card';
 import EditIcon from '@material-ui/icons/Edit';
 import { goToEditProfile, goToAdressPage } from "../routes/coordinator";
+import useProtectedPage from "../hooks/useProtectedPage";
 
 const Conteiner = styled.div`
       width: 100vw;
@@ -94,6 +95,7 @@ const CardInfo = styled.div`
 `
 
 const ProfilePage = () => {
+  useProtectedPage()
   const [profile, setProfile] = useState({});
   const [order, setOrder] = useState([]);
 
