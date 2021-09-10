@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { InputAdornment, TextField } from '@material-ui/core'
+import { InputAdornment, TextField, Toolbar } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search';
 import styled from "styled-components";
 import { AccessAlarm, ThreeDRotation } from '@material-ui/icons';
@@ -84,6 +84,15 @@ const Shipping = styled.div`
 const HomePage = () => {
 
   const [restaurants, setRestaurants] = useState([])
+  const [filteredRestaurants, setFilteredRestaurants] = useState([])
+
+  const handleFilter = (event) => {
+    const searchWord = event.target.value
+    const newFilter = restaurants.filter((value) => {
+      return value.name.toLowerCase().includes(searchWord)
+    })
+    setFilteredRestaurants(newFilter)
+  }
 
   useEffect(() => {
     getRestaurants()
@@ -104,51 +113,51 @@ const HomePage = () => {
   }
 
   // { !restaurants && "Carregando..." }
-
-  const renderRestaurants =
-    restaurants.length !== 0 && restaurants.map((item) => {
-      return (
-        <RestaurantCard>
-          <Rectangle>
-            <img src={item.logoUrl} />
-            <Restaurant>
-            <p> {item.name}</p>
-            </Restaurant>
-            <DeliveryTime>
-            <p> {item.deliveryTime} min</p>
-            </DeliveryTime>
-            <Shipping>
-              {item.shipping}
-            </Shipping>
-          </Rectangle>
-        </RestaurantCard>
-
-      )
-    })
-
-
+  
   return (
     <div>
-      <TextField
-        variant="outlined"
-        size="medium"
-        // value={searchTerm}
-        type="text"
-        name="restaurant"
-        placeholder="Procure um restaurante"
-        // onChange={handleChange}
-        required
-        style={{ margin: '8px 0 0 0', width: '100%' }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          )
-        }}
-      />
+      <Toolbar>
+        <TextField
+          variant="outlined"
+          size="medium"
+          // value={searchTerm}
+          type="text"
+          name="restaurant"
+          label="Procure um restaurante"
+          onChange={handleFilter}
+          required
+          style={{ margin: '8px 0 0 0', width: '100%' }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
 
-      {renderRestaurants}
+              </InputAdornment>
+            )
+          }}
+        />
+      </Toolbar>
+      {filteredRestaurants.length != 0 && (
+        <div>
+        {filteredRestaurants.map((item, key) => {
+          return (
+            <RestaurantCard>
+              <Rectangle>
+                <img src={item.logoUrl} />
+                <Restaurant>
+                  <p> {item.name}</p>
+                </Restaurant>
+                <DeliveryTime>
+                  <p> {item.deliveryTime} min</p>
+                </DeliveryTime>
+                <Shipping>
+                  {item.shipping}
+                </Shipping>
+              </Rectangle>
+            </RestaurantCard>
+
+          )
+        })}
+      </div>)}
 
     </div>
   )
