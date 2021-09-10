@@ -167,6 +167,8 @@ const CartPage = () => {
   }, [])
 
 
+
+
   return (
     <Conteiner>
       <Title>Meu Carrinho</Title>

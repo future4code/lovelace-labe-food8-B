@@ -159,7 +159,7 @@ const ProfilePage = () => {
           );
 
 
-
+          
   return (
     <Conteiner>
       <TitleConteiner>
