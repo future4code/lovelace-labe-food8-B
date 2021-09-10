@@ -15,7 +15,7 @@ export default function Router() {
     <BrowserRouter>
       <Switch>
 
-      <Route exact path={"/"}>
+        <Route exact path={"/"}>
           <SplashPage />
         </Route>
 
