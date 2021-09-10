@@ -95,47 +95,61 @@ const CardInfo = styled.div`
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState({});
-  const [order, setOrder] = useState({});
+  const [order, setOrder] = useState([]);
 
   const history = useHistory()
 
-  const getProfile = () =>{
-  axios
-    .get(`${baseUrl}/${appName}/profile`, {
-      headers: {
-        auth: localStorage.getItem("token")
-      }
-    }).then((res) => {
-      setProfile(res.data.user)
-    }).catch((err) => {
-      console.log(err);
-    })
+  const getProfile = () => {
+    axios
+      .get(`${baseUrl}/${appName}/profile`, {
+        headers: {
+          auth: localStorage.getItem("token")
+        }
+      }).then((res) => {
+        setProfile(res.data.user)
+      }).catch((err) => {
+        console.log(err);
+      })
   }
 
   useEffect(() => {
     getProfile();
   }, [])
 
-  const getOrderHistory = () =>{
-  axios
-    .get(`${baseUrl}/${appName}/orders/history`, {
-      headers: {
-        auth: localStorage.getItem("token")
-      }
-    }).then((res) => {
-      setOrder("pedidos", res.data)
-    }).catch((err) => {
-      console.log(err);
-    })
+  const getOrderHistory = () => {
+    axios
+      .get(`${baseUrl}/${appName}/orders/history`, {
+        headers: {
+          auth: localStorage.getItem("token")
+        }
+      }).then((res) => {
+        setOrder(res.data.orders)
+      }).catch((err) => {
+        console.log(err);
+      })
   }
 
   useEffect(() => {
     getOrderHistory();
   }, [])
 
-  
 
-  
+  const orderCard = order.map((o) => {
+    return (<Rectangle2 key={o.id}>
+      <NomeRestaurante>{o.restaurantName}</NomeRestaurante>
+      <Data>{o.createdAt}</Data>
+      <Subtotal>{o.totalPrice}</Subtotal>
+    </Rectangle2>)
+  })
+
+  const correctRender = () =>{
+    if (getOrderHistory.length > 0) {
+      return {orderCard}
+    }else{
+      return <p align="center">Você ainda não fez nenhum pedido</p>
+    }
+  }
+
 
   return (
     <Conteiner>
@@ -156,7 +170,7 @@ const ProfilePage = () => {
       </Rectangle>
       <Historico> Histórico de pedidos</Historico>
       <CardConteiner>
-
+        {correctRender()}
       </CardConteiner>
     </Conteiner>
   )
