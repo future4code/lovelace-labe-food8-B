@@ -1,15 +1,22 @@
-
 import React, { useEffect, useState } from "react";
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/input";
-import { Box, Container, Divider, Heading } from "@chakra-ui/layout";
+import { Box, Container } from "@chakra-ui/layout";
 import { BiSearch } from "react-icons/bi";
 import axios from "axios";
 import { appName, baseUrl } from "../constants/constants";
 import RestaurantCard from "../components/RestaurantCard";
 import AppHeader from "../components/AppHeader";
+import { useHistory } from "react-router";
 
 const HomePage = () => {
+  const history = useHistory();
   const [restaurantsList, setRestaurantsList] = useState([]);
+
+  useEffect(() => {
+    if (localStorage.getItem("token") === null) {
+      history.push("/login");
+    }
+  }, []);
 
   useEffect(() => {
     getRestaurants();

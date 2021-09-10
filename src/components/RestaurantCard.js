@@ -1,8 +1,15 @@
 import { Image } from "@chakra-ui/image";
 import { Box, Text } from "@chakra-ui/layout";
 import React from "react";
+import { useHistory } from "react-router";
 
 const RestaurantCard = ({ restaurant }) => {
+  const history = useHistory();
+
+  const goToRestaurantDetail = () => {
+    history.push(`/restaurant/${restaurant.id}`);
+  };
+
   return (
     <Box
       my="4"
@@ -10,6 +17,7 @@ const RestaurantCard = ({ restaurant }) => {
       display="flex"
       flexDir="column"
       borderWidth="2px"
+      onClick={goToRestaurantDetail}
     >
       <Image h="200px" w="100%" src={restaurant.logoUrl} alignSelf="center" />
       <Box color="gray.500" p="4" flexDir="column">
