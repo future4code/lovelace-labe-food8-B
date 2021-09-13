@@ -1,6 +1,7 @@
 import React from "react"
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 import styled from "styled-components";
 import axios from "axios"
 import { useState, useEffect } from "react";
@@ -10,6 +11,8 @@ import { useHistory } from "react-router";
 import Card from '@material-ui/core/Card';
 import EditIcon from '@material-ui/icons/Edit';
 import { goToEditProfile, goToAdressPage } from "../routes/coordinator";
+import useProtectedPage from "../hooks/useProtectedPage";
+
 
 const Conteiner = styled.div`
       width: 100vw;
@@ -144,9 +147,12 @@ const ButtonStyle = styled.button`
 `
 
 const CartPage = () => {
+
   const [address, setAddress] = useState({});
 
   const history = useHistory()
+
+  useProtectedPage()
 
 
   const getAddress = () => {

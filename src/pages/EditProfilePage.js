@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import styled from "styled-components";
 import axios from "axios"
+import useProtectedPage from "../hooks/useProtectedPage";
 
 const TextFieldStyled = styled(TextField)`
   width: 328px;
@@ -38,6 +39,7 @@ const SaveButton = styled.button`
   `
 
 const EditProfilePage = () => {
+  useProtectedPage()
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

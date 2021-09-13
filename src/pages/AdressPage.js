@@ -15,8 +15,10 @@ import { useHistory } from "react-router";
 import GoBackBar from "../components/GoBackBar";
 import axios from "axios";
 import { appName, baseUrl } from "../constants/constants";
+import useProtectedPage from "../hooks/useProtectedPage";
 
 const AdressPage = () => {
+  useProtectedPage()
   const history = useHistory();
   const toast = useToast();
 

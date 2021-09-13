@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Container, Heading, Divider } from "@chakra-ui/react";
 import { useParams } from "react-router";
@@ -6,12 +7,17 @@ import { appName, baseUrl } from "../constants/constants";
 import GoBackBar from "../components/GoBackBar.js";
 import RestaurantDetailCard from "../components/RestaurantDetailCard";
 import ProductCard from "../components/ProductCard";
+import useProtectedPage from "../hooks/useProtectedPage";
+
 
 const RestaurantPage = () => {
   const params = useParams();
   const [restaurantDetail, setRestaurantDetail] = useState();
   const [buttonIsSelected, setButtonIsSelected] = useState(true);
 
+    useProtectedPage()
+
+  
   useEffect(() => {
     getRestaurantDetail();
   }, []);
