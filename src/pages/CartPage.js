@@ -1,8 +1,18 @@
 import React from "react"
-import styled from "styled-components"
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+
+import styled from "styled-components";
+import axios from "axios"
+import { useState, useEffect } from "react";
+import { baseUrl } from "../constants/constants";
+import { appName } from "../constants/constants";
+import { useHistory } from "react-router";
+import Card from '@material-ui/core/Card';
+import EditIcon from '@material-ui/icons/Edit';
+import { goToEditProfile, goToAdressPage } from "../routes/coordinator";
 import useProtectedPage from "../hooks/useProtectedPage";
+
 
 const Conteiner = styled.div`
       width: 100vw;
@@ -50,7 +60,7 @@ const Adress2 = styled.form`
   text-align:center;
   margin-bottom: 20px;
   justify-content: center;
-
+  cursor: pointer;
 `
 
 const Status = styled.span`
@@ -137,14 +147,41 @@ const ButtonStyle = styled.button`
 `
 
 const CartPage = () => {
+
+  const [address, setAddress] = useState({});
+
+  const history = useHistory()
+
   useProtectedPage()
-  
+
+
+  const getAddress = () => {
+    axios
+      .get(`${baseUrl}/${appName}/profile/address`, {
+        headers: {
+          auth: localStorage.getItem("token")
+        }
+      }).then((res) => {
+        setAddress(res.data.address)
+      }).catch((err) => {
+        console.log(err);
+      })
+  }
+
+  useEffect(() => {
+    getAddress();
+  }, [])
+
+
+
+
   return (
     <Conteiner>
       <Title>Meu Carrinho</Title>
       <Rectangle>
         <Adress>Endereço de entrega</Adress>
-        <Adress2> Rua Alessandro Vieira, 41</Adress2>
+        <Adress2> {address.street}, {address.number} <EditIcon
+          onClick={() => goToAdressPage(history)} /></Adress2>
       </Rectangle>
       <Status>Carrinho vazio</Status>
       <Frete>Frete</Frete>

@@ -1,13 +1,13 @@
 import React from "react";
-import { Flex, IconButton, Divider } from "@chakra-ui/react";
+import { Flex, IconButton, Heading } from "@chakra-ui/react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useHistory } from "react-router";
 
-const GoBackBar = () => {
+const GoBackBar = ({ title }) => {
   const history = useHistory();
   return (
     <>
-      <Flex flexDir="column" alignItems="flex-start">
+      <Flex>
         <IconButton
           colorScheme="whatsapp"
           isRound
@@ -18,9 +18,17 @@ const GoBackBar = () => {
           icon={<AiOutlineArrowLeft />}
           onClick={() => history.goBack()}
         />
+        {title ? (
+          <>
+            <Heading as="h1" fontSize="lg" p="4">
+              {title}
+            </Heading>
+            <div></div>
+          </>
+        ) : (
+          ""
+        )}
       </Flex>
-
-      <Divider mb={-10} />
     </>
   );
 };
